@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg shadow-sm" style="background-color: var(--shop-primary, #0066cc);">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2 text-white fw-bold"
+       [routerLink]="['/', slug]">
+      @if (shopInfo()?.shop_logo) {
+        <img [src]="shopInfo()!.shop_logo" height="36" alt="logo" class="rounded">
+      }
+      {{ shopInfo()?.shop_nome || '' }}
+    </a>
+
+    <button class="navbar-toggler border-white" type="button"
+            data-bs-toggle="collapse" data-bs-target="#shopNav"
+            aria-controls="shopNav" aria-expanded="false">
+      <i class="bi bi-list text-white fs-4"></i>
+    </button>
+
+    <div class="collapse navbar-collapse" id="shopNav">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item">
+          <a class="nav-link text-white"
+             [routerLink]="['/', slug]"
+             routerLinkActive="fw-bold"
+             [routerLinkActiveOptions]="{exact: true}">
+            <i class="bi bi-grid me-1"></i>Prodotti
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white"
+             [routerLink]="['/', slug, 'contatto']"
+             routerLinkActive="fw-bold">
+            <i class="bi bi-envelope me-1"></i>Contatto
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="flex-grow-1">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="py-4 mt-auto border-top bg-light">
+  <div class="container text-center">
+    <p class="mb-1 fw-semibold text-dark">{{ shopInfo()?.shop_nome }}</p>
+    @if (shopInfo()?.shop_descrizione) {
+      <p class="mb-0 text-muted small">{{ shopInfo()?.shop_descrizione }}</p>
+    }
+    <p class="mt-2 mb-0 text-muted" style="font-size:0.75rem">
+      Powered by <strong>PSC Print</strong>
+    </p>
+  </div>
+</footer>
