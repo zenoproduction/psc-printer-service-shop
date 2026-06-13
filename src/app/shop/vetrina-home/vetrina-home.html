@@ -22,13 +22,13 @@
         (click)="selezionaCategoria('')">
         Tutti
       </button>
-      @for (cat of categorie(); track cat) {
+      @for (cat of categorie(); track cat.slug) {
         <button
           class="btn btn-sm"
-          [class.btn-dark]="categoriaSelezionata() === cat"
-          [class.btn-outline-secondary]="categoriaSelezionata() !== cat"
-          (click)="selezionaCategoria(cat)">
-          {{ cat }}
+          [class.btn-dark]="categoriaSelezionata() === cat.slug"
+          [class.btn-outline-secondary]="categoriaSelezionata() !== cat.slug"
+          (click)="selezionaCategoria(cat.slug)">
+          {{ cat.nome }}
         </button>
       }
     </div>
@@ -94,10 +94,10 @@
                     <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
                   </div>
                 }
-                @if (prodotto.categoria_shop) {
+                @if (prodotto.categoria_nome) {
                   <span class="badge position-absolute top-0 start-0 m-2"
                         style="background-color: var(--shop-primary, #0066cc);">
-                    {{ prodotto.categoria_shop }}
+                    {{ prodotto.categoria_nome }}
                   </span>
                 }
               </div>
@@ -105,16 +105,16 @@
               <!-- Corpo card -->
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title fw-semibold mb-1">{{ prodotto.nome }}</h5>
-                @if (prodotto.descrizione) {
+                @if (prodotto.descrizione_breve || prodotto.descrizione) {
                   <p class="card-text text-muted small flex-grow-1 mb-3">
-                    {{ prodotto.descrizione | slice:0:100 }}{{ prodotto.descrizione.length > 100 ? '…' : '' }}
+                    {{ (prodotto.descrizione_breve || prodotto.descrizione || '') | slice:0:100 }}{{ ((prodotto.descrizione_breve || prodotto.descrizione) || '').length > 100 ? '…' : '' }}
                   </p>
                 } @else {
                   <div class="flex-grow-1"></div>
                 }
                 <div class="d-flex align-items-center justify-content-between mt-auto">
                   <span class="fw-bold fs-5" style="color: var(--shop-primary, #0066cc);">
-                    {{ prezzoFormattato(prodotto.prezzo_pubblico) }}
+                    {{ prezzoFormattato(prodotto.prezzo_da) }}
                   </span>
                   <a
                     [routerLink]="['/', slug, 'prodotti', prodotto.slug]"

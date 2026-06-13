@@ -28,15 +28,20 @@ export class VetrinaHomeComponent implements OnInit {
 
   categorie = computed(() => {
     const cats = this.prodotti()
-      .map(p => p.categoria_shop)
-      .filter((c): c is string => !!c);
-    return [...new Set(cats)].sort();
+      .map(p => ({ nome: p.categoria_nome, slug: p.categoria_slug }))
+      .filter((c): c is { nome: string; slug: string } => !!c.nome && !!c.slug);
+    const seen = new Set<string>();
+    return cats.filter(c => {
+      if (seen.has(c.slug)) return false;
+      seen.add(c.slug);
+      return true;
+    }).sort((a, b) => a.nome.localeCompare(b.nome));
   });
 
   prodottiFiltrati = computed(() => {
     const cat = this.categoriaSelezionata();
     return cat
-      ? this.prodotti().filter(p => p.categoria_shop === cat)
+      ? this.prodotti().filter(p => p.categoria_slug === cat)
       : this.prodotti();
   });
 

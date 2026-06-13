@@ -70,14 +70,20 @@
       <!-- Info -->
       <div class="col-12 col-md-7">
 
-        @if (prodotto()!.categoria_shop) {
+        @if (prodotto()!.categoria_nome) {
           <span class="badge mb-2"
                 style="background-color: var(--shop-primary, #0066cc);">
-            {{ prodotto()!.categoria_shop }}
+            {{ prodotto()!.categoria_nome }}
           </span>
         }
 
-        <h1 class="h2 fw-bold mb-3">{{ prodotto()!.nome }}</h1>
+        <h1 class="h2 fw-bold mb-2">{{ prodotto()!.nome }}</h1>
+
+        @if (prodotto()!.descrizione_breve) {
+          <p class="lead text-muted mb-3" style="font-size: 1rem;">
+            {{ prodotto()!.descrizione_breve }}
+          </p>
+        }
 
         @if (prodotto()!.descrizione) {
           <p class="text-muted mb-4" style="line-height: 1.7;">
@@ -88,9 +94,9 @@
         <!-- Prezzo -->
         <div class="mb-4">
           <span class="fs-3 fw-bold" style="color: var(--shop-primary, #0066cc);">
-            {{ prezzoFormattato(prodotto()!.prezzo_pubblico) }}
+            {{ prezzoFormattato(prodotto()!.prezzo_da) }}
           </span>
-          @if (prodotto()!.prezzo_pubblico !== null) {
+          @if (prodotto()!.prezzo_da !== null) {
             <span class="text-muted ms-2 small">a partire da</span>
           }
         </div>
